@@ -1,0 +1,278 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+{% block title %}
+    <title>{{ courses.course_name }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="pt-1"></div>
+    <div class="shadow course_preview">
+        <div class="course_preview_background p-4">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="course_preview_section_left">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-4 col-lg-5 col-md-6">
+                                    <div class="preview_video">
+                                        {% csrf_token %}
+                                        <a href="#"
+                                           class="course_img"
+                                           data-toggle="modal"
+                                           data-target="#videoModal">
+                                            <img src="/{{ courses.thumbnail }}" alt="">
+                                            <div class="course-overlay">
+                                                <div class="badge_instructor">Top Instructor</div>
+                                                <span class="course_play_btn">
+                                                        <i class="fas fa-play"></i>
+                                                    </span>
+                                                <span class="course_preview_title">Play Course Preview</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="course_preview_wishlist_report">
+                                        <a href="#" class="course_preview_wishlist">
+                                                <span>
+                                                    <i class="fas fa-heart"></i>
+                                                </span>
+                                            Wishlist
+                                        </a>
+                                        <a href="#" class="course_preview_report_abuse">
+                                                <span>
+                                                    <i class="fas fa-flag"></i>
+                                                </span>
+                                            Report abuse
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-8 col-lg-7 col-md-6">
+                                    <div class="course_preview_course_name">
+                                        <h2>{{ courses.course_name }}</h2>
+                                        <span class="course_preview_course_des">{{ courses.course_description |safe }}</span>
+                                    </div>
+
+                                    <div class="course_preview_language_caption">
+                                        <div class="course_preview_language">
+                                                <span>
+                                                    <i class="fas fa-language"></i>
+                                                </span>
+                                            {{ courses.course_language }}
+                                        </div>
+                                        <div class="course_preview_caption">
+                                                <span>
+                                                    <i class="fas fa-closed-captioning"></i>
+                                                </span>
+                                            <span>
+                                                    {{ courses.course_caption }}
+                                                    <span class="caption_tooltip">
+                                                        more
+                                                        <span class="caption-content">
+                                                            <span>{{ courses.course_caption }}</span>
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="course_preview_modified_date">
+                                        <i class="fas fa-pen-square"></i><span style="color: var(--color-primary)"> Last Updated On:</span>
+                                        <span>{{ courses.course_modified_date }}</span>
+                                    </div>
+                                    <div class="price">
+                                        <h3 class="text-white pt-4">NPR: {{ courses.course_price }}</h3>
+                                    </div>
+                                    <ul class="course_preview_cart_buy">
+                                        {% if request.user.is_authenticated %}
+
+                                            {% if is_already_ordered %}
+                                                <li>
+                                                    <button onclick="location.href='/course/read/{{ courses.id }}'"
+                                                            data-action="add"
+                                                            class="btn_adcart">View
+                                                    </button>
+                                                </li>
+
+                                            {% else %}
+
+                                                <li>
+                                                    <button data-course="{{ courses.id }}" data-action="add"
+                                                            class="btn_adcart update_cart">Add to Cart
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button onclick="location.href='/cart/checkout'" class="btn_buy">Buy
+                                                        Now
+                                                    </button>
+                                                </li>
+                                            {% endif %}
+
+                                        {% else %}
+                                            <li>
+                                                <button onclick="location.href='/login'" data-action="add"
+                                                        class="btn_adcart">Add to Cart
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button onclick="location.href='/login'" class="btn_buy">Buy
+                                                    Now
+                                                </button>
+                                            </li>
+
+                                        {% endif %}
+                                    </ul>
+                                    <div class="money_back">
+                                        30-Day Money-Back Guarantee
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="course_preview_content_section">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="instructor_data pl-4">
+                            <div class="instructor_data_left">
+                                <div class="live_instructor_data">
+                                    <div class="instructor_thumbnail">
+                                        <a href="">
+                                            <img src="/{{ courses.thumbnail }}" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="course_preview_instructor_name">
+                                        <a href="" class="instructor_name">{{ courses.course_instructor.username }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course_tabs">
+                            <nav>
+                                <div class="nav nav-tabs tab_course justify-content-center" id="nav-tab" role="tablist">
+                                    <a class="nav-item nav-link active"
+                                       id="nav-about-tab"
+                                       data-toggle="tab"
+                                       href="#nav-about"
+                                       role="tab"
+                                       aria-selected="true">About</a>
+                                    <a class="nav-item nav-link"
+                                       id="nav-courses-tab"
+                                       data-toggle="tab"
+                                       href="#nav-courses"
+                                       role="tab"
+                                       aria-selected="false">Courses Content</a>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pl-4 pr-4 course_content_section shadow">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="course_tab_content">
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-about" role="tabpanel">
+                                    <div class="course_preview_about_tab">
+                                        <div class="course_about_details">
+                                            <h3>Requirements</h3>
+                                            {{ courses.course_requirements |safe }}
+                                        </div>
+                                        <div class="course_about_details mt-35">
+                                            <h3>Description</h3>
+                                            {{ courses.course_description |safe }}
+                                        </div>
+                                        <div class="course_about_details mt-35">
+                                            <h3>Who this course is for:</h3>
+                                            {{ courses.course_audience |safe }}
+                                        </div>
+                                        <div class="course_about_outcome mt-35">
+                                            <h3>What you'll learn</h3>
+                                            {{ courses.course_outcome |safe }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade pb-5" id="nav-courses" role="tabpanel">
+                                    <div class="course_preview_content">
+                                        <h3>Course content</h3>
+                                        <div class="course_preview_content_info">
+                                            <ul class="accordion-expand-holder">
+                                                <li>
+                                                    <span class="course_preview_content_info_style"> {{ topics_count }} lectures</span>
+                                                </li>
+                                                <li>
+                                                    <span class="course_preview_content_info_style">{{ courses.course_duration }} Minutes</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        {% for topics in topics %}
+
+                                            <div id="accordion" class="ui-accordion ui-widget ui-helper-reset">
+                                            <a href="javascript:void(0)"
+                                               class="accordion-header ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all">
+                                                <div class="section-header-left collapsed">
+                                                        <span class="section-title-wrapper">
+                                                            <i class="fas fa-chevron-circle-down"></i>
+                                                            <span class="section-title-text">{{ topics.topic_title }}</span>
+                                                        </span>
+                                                </div>
+                                                <div class="section-header-right">
+                                                    {% if topics.topic_duration != None %}
+                                                        <span class="section-header-length">{{ topics.topic_duration }} Minutes</span>
+                                                    {% endif %}
+                                                </div>
+                                            </a>
+                                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
+                                                <div class="lecture-container">
+                                                    <div class="left-content">
+                                                        <i class="fas fa-file icon_course_topic"></i>
+                                                        <div class="top">
+                                                            <div class="title">{{ topics.topic_description }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal preview_video_model fade"
+         id="videoModal"
+         tabindex="-1"
+         role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <div class="modal-body">
+                    <iframe src="{{ embed_url }}/{{ courses.video_url }}"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {% include 'courses/cartAjax.html' %}
+
+{% endblock %}

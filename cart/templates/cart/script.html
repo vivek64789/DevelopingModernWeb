@@ -1,0 +1,79 @@
+<script>
+    var product_total_amt = document.getElementById('product_total_amt');
+    var shipping_charge = document.getElementById('shipping_charge');
+    var total_cart_amt = document.getElementById('total_cart_amt');
+    var discountCode = document.getElementById('discount_code1');
+
+    const discount_code = () => {
+        let totalamtcurr = parseInt(total_cart_amt.innerHTML);
+        let error_trw = document.getElementById('error_trw');
+        if (discountCode.value === "code") {
+            let newtotalamt = totalamtcurr - 15;
+            total_cart_amt.innerHTML = newtotalamt;
+            error_trw.innerHTML = "Hurray! code is valid";
+        } else {
+            error_trw.innerHTML = "Try Again! invalid code";
+        }
+    }
+
+    $(".increase-item-quantity").click(function () {
+        var id = $(this).attr('cid').toString();
+        console.log(id);
+
+        $.ajax({
+
+            url: "{% url 'increaseCart' %}",
+            type: "GET",
+            data: {'cart_id': id},
+            success: function (data) {
+                console.log(data.total_price);
+                $('#increase_item_id' + id + '').val(data.quantity);
+                document.getElementById("product_total_amt").innerText = data.total_price;
+                document.getElementById("total_cart_amt").innerText = data.total_cart_amount;
+            }
+
+        });
+    });
+
+    $(".decrease-item-quantity").click(function () {
+        var id = $(this).attr('cid').toString();
+        console.log(id);
+
+        $.ajax({
+
+            url: "{% url 'decreaseCart' %}",
+            type: "GET",
+            data: {'cart_id': id},
+            success: function (data) {
+                console.log(data.total_price);
+                $('#increase_item_id' + id + '').val(data.quantity);
+                document.getElementById("product_total_amt").innerText = data.total_price;
+                document.getElementById("total_cart_amt").innerText = data.total_cart_amount;
+            }
+
+        });
+    });
+
+    $(".remove-cart-item").click(function () {
+        var id = $(this).attr('cid').toString();
+        var obj = this;
+
+        $.ajax({
+
+            url: "{% url 'removeCart' %}",
+            type: "GET",
+            data: {'cart_id': id},
+            success: function (data) {
+                console.log(data.total_price);
+                document.getElementById("product_total_amt").innerText = data.total_price;
+                document.getElementById("total_cart_amt").innerText = data.total_cart_amount;
+                obj.parentNode.parentNode.parentNode.parentNode.remove()
+            }
+
+        });
+    });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>

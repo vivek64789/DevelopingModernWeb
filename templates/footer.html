@@ -1,0 +1,59 @@
+<footer class="footer pr-3 pt-7">
+
+    <div class="col-md-12 container-fluid">
+
+        <div class="row shadow p-2">
+            <div class="col-md-4 mb-3">
+                <h3 class="d-flex justify-content-center">About us</h3>
+                <p class="d-flex justify-content-center">
+                    Entrance Preparation is an online learning marketplace, where instructor can
+                    create courses and sell them to students.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h3 class="d-flex justify-content-center">Quick links</h3>
+                <div class="float-left">
+                    <ul>
+                        <li class="d-flex align-items-center">
+                            <a href="{% url 'courses' %}" target="_blank">All Courses</a>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <a href="{% url 'becomeInstructor' %}" target="_blank">Become Instructor</a>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <a href="{% url 'newsAndNotices' %}" target="_blank">News & Notices</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="float-end">
+                    <ul>
+                        <li class="d-flex align-items-center">
+                            <a data-tooltip="View Mbbs Courses" href="{% url 'courses' 'mbbs' %}" target="_blank" >Mbbs</a>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <a data-tooltip="View Loksewa Courses" href="{% url 'courses' 'loksewa' %}" target="_blank" >Loksewa</a>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <a data-tooltip="View Django Courses" href="{% url 'courses' 'django' %}" target="_blank"  >Django</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h3 class="d-flex justify-content-center mt-3">Follow us on</h3>
+                <div class="p-4 d-flex justify-content-center">
+                    <a class="px-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="px-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="px-2" href="#"><i class="fab fa-instagram"></i></a>
+                    <a class="px-2" href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="row col-md-12 d-flex justify-content-center mt-5">
+                <p>© 2021 <strong>Entrance Preparation</strong>. All Rights Reserved.</p>
+                <p class="ml-3">Made with <i class="fas fa-heart"></i> by Bibekanand Kushwaha</p>
+            </div>
+        </div>
+    </div>
+
+</footer>

@@ -1,0 +1,81 @@
+{% load static %}
+{% include 'layout.html' %}
+
+{% block title %}
+    <title>Home</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="section shadow position-relative pt-7" id="banner">
+        <div class="container mt-5 pb-5">
+            <img src="/static/uploads/banner_image.png" class="col-md-3 shadow mb-5 banner_image rounded float-end"
+                 alt="...">
+            <div class="banner-content col-md-8 pt-4">
+                <p class="h1 banner-title">Be Prepared for Entrance</p>
+                <p class="h1 banner-subtitle">Learn Online,</p>
+                <p class="h1 banner-subtitle">Any Where,</p>
+                <p class="h1 banner-subtitle">Any Time</p>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="container mt-50 shadow pb-3">
+        <div class="row mb-3 mt-3">
+            <h3 class="m-auto">Latest Courses</h3>
+        </div>
+        <div class="row course_grid ">
+
+            {% for course in courses %}
+
+                <div class="entprep-card mb-5 ml-lg-3 ml-auto mr-auto">
+                    <a href="course/{{ course.id }}" class="course_img">
+                        <img src="{{ course.thumbnail }}" alt="">
+                        <div class="course-overlay">
+                            <span class="course_play_btn"><i class="fas fa-play-circle"></i></span>
+                            {% if course.course_duration != None %}
+                                <div class="course_timer">
+                                    {{ course.course_duration }} Minutes
+                                </div>
+                            {% endif %}
+                        </div>
+                    </a>
+                    <div class="course_content">
+                        {% csrf_token %}
+                        <div class="course_dots more_dropdown">
+                            <a href="#"><i class="fas fa-ellipsis-v"></i></a>
+                            <div class="dropdown-content">
+                                {#                                <span data-course="{{ course.id }}" class="update_cart"><i class="fas fa-cart-plus"></i>Add to Cart</span>#}
+                                <span><i class="far fa-save"></i>Save for later</span>
+                            </div>
+                        </div>
+
+                        <a href="course/{{ course.id }}"
+                           class="course_name">{{ course.course_name }}</a>
+                        <a class="float-left" href="javascript:void(0)"
+                           class="course_category">{{ course.course_categories }}</a>
+                        <a class="float-end" href="javascript:void(0)"> <span data-course="{{ course.id }}"
+                                                                              class="update_cart"><i
+                                class="fas fa-cart-plus"></i>Add to Cart</span>
+                        </a>
+                        <div class="author_and_price">
+                            <p class="author_name">By <a target="_blank"
+                                                         href="/instructor/view/{{ course.course_instructor.id }}">{{ course.course_instructor.username }}</a>
+                            </p>
+                            <div class="course_price">NPR {{ course.course_price }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    {% include 'footer.html' %}
+
+
+    {% include  'courses/cartAjax.html' %}
+
+
+{% endblock %}

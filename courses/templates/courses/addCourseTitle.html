@@ -1,0 +1,42 @@
+{% extends 'instructorDashboardLayout.html' %}
+{% load bootstrap %}
+{% block title %}
+    <title>Add Courses</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-8 m-auto section-first">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Add Course
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Course Title</h5>
+                        <p class="card-text">Lets start creating your course by adding course title first</p>
+                        <form class="form" action="" method="POST">
+                            {% csrf_token %}
+                            {{ course_title_form.course_name }}
+                            <br>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+      var create_course_fields = document.getElementsByTagName('input')
+    create_course_fields[1].classList.add("form-control");
+
+
+    </script>
+
+{% endblock %}

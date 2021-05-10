@@ -1,0 +1,135 @@
+<script>
+    var headers = $('#accordion .accordion-header');
+    var contentAreas = $('#accordion .ui-accordion-content ').hide()
+        .first().show().end();
+    var expandLink = $('.accordion-expand-all');
+
+    // add the accordion functionality to course content
+    headers.click(function () {
+        contentAreas.slideUp();
+        $(this).next().slideDown();
+        expandLink.text('Expand all')
+            .data('isAllOpen', false);
+        return false;
+    });
+
+    expandLink.click(function () {
+        var isAllOpen = !$(this).data('isAllOpen');
+        console.log({isAllOpen: isAllOpen, contentAreas: contentAreas})
+        contentAreas[isAllOpen ? 'slideDown' : 'slideUp']();
+
+        expandLink.text(isAllOpen ? 'Collapse All' : 'Expand all')
+            .data('isAllOpen', isAllOpen);
+    });
+
+    /*Floating Code for Iframe Start*/
+    if (jQuery('iframe[src*="https://www.youtube.com/embed/"],iframe[src*="https://player.vimeo.com/"],iframe[src*="https://player.vimeo.com/"]').length > 0) {
+
+        jQuery('iframe[src*="https://www.youtube.com/embed/"],iframe[src*="https://player.vimeo.com/"]').wrap("<div class='iframe-parent-class'></div>");
+
+        jQuery('iframe[src*="https://www.youtube.com/embed/"],iframe[src*="https://player.vimeo.com/"]').each(function (index) {
+
+            /*Floating js Start*/
+            var windows = jQuery(window);
+            var iframeWrap = jQuery(this).parent();
+            var iframe = jQuery(this);
+            var iframeHeight = iframe.outerHeight();
+            var iframeElement = iframe.get(0);
+            windows.on('scroll', function () {
+                var windowScrollTop = windows.scrollTop();
+                var iframeBottom = iframeHeight + iframeWrap.offset().top;
+
+                if ((windowScrollTop > iframeBottom)) {
+                    iframeWrap.height(iframeHeight);
+                    iframe.addClass('stuck');
+                    jQuery(".scrolldown").css({"display": "none"});
+                } else {
+                    iframeWrap.height('auto');
+                    iframe.removeClass('stuck');
+                }
+            });
+            /*Floating js End*/
+        });
+    }
+
+    {#Cart functionality#}
+
+    $('.update_cart').click(function () {
+        var courseId = $(this).attr("data-course");
+        var courseAction = $(this).attr("data-action");
+        let csrf = $("input[name=csrfmiddlewaretoken]").val();
+
+        console.log(courseId);
+        var send_data = {course_id: courseId, csrfmiddlewaretoken: csrf}
+
+        $.ajax({
+            url: "{% url 'updateCart' %}",
+            type: 'POST',
+            data: send_data,
+            dataType: 'json',
+            success: function (data) {
+                if (data.status) {
+                    var toastMixin = Swal.mixin({
+                        toast: true,
+                        icon: 'success',
+                        title: '' + data.course_price + ' added successfully',
+                        animation: false,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    toastMixin.fire({
+                        animation: true,
+                        title: '' + data.course_name + ' added successfully to <a href="/cart" target="_blank"> Cart</a>'
+                    });
+                } else if (data.is_already_ordered){
+                    var toastMixinnn = Swal.mixin({
+                        toast: true,
+                        icon: 'error',
+                        title: '' + data.course_price + ' added successfully',
+                        animation: false,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    toastMixinnn.fire({
+                        animation: true,
+                        title: 'Course already Purchased <a href="/course/read/'+data.course_id+'" target="_blank"> View</a>'
+                    });
+                }
+                else {
+                    var toastMixinn = Swal.mixin({
+                        toast: true,
+                        icon: 'error',
+                        title: '' + data.course_price + ' added successfully',
+                        animation: false,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    toastMixinn.fire({
+                        animation: true,
+                        title: 'Course already in your <a href="/cart" target="_blank"> Cart</a>'
+                    });
+                }
+            }
+
+        });
+    });
+
+</script>

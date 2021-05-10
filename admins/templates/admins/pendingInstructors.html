@@ -1,0 +1,86 @@
+{% extends 'adminDashboardLayout.html' %}
+
+
+{% block content %}
+
+    <div id="content-wrapper" class="d-flex flex-column pt-0 wrapper">
+        <div id="content">
+            <div class="container-fluid">
+                <div class="container shadow">
+                    <h1 class="h3 mb-2 text-success font-weight-bold d-flex justify-content-center p-2">Pending
+                        Instructors</h1>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-white py-3">
+                        <a href="{% url 'addInstructor' %}"
+                           class="m-0 font-weight-bold text-primary d-flex justify-content-end">Add Instructors</a>
+                    </div>
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="table-responsive">
+                            <table
+                                    class="table table-bordered"
+                                    id="dataTable"
+                                    width="100%"
+                                    cellspacing="0"
+                            >
+                                <thead>
+                                <tr>
+                                    <th>Instructor Id</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Requested Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Instructor Id</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Requested Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                {% for instructor in instructors %}
+
+                                    <tr>
+                                        <td>{{ instructor.id }}</td>
+                                        <td>{{ instructor.first_name }}</td>
+                                        <td>{{ instructor.last_name }}</td>
+                                        <td>{{ instructor.user.username }}</td>
+                                        <td>{{ instructor.user.email }}</td>
+                                        <td>{{ instructor.date_requested }}</td>
+                                        <td>
+                                            <a href="javascript:void(0)" data-tooltip="Approve"
+                                               data-id="{{ instructor.user.id }}"
+                                               class="btn mb-1 text-success admin-approve-instructor-btn">
+                                                <i class="far fa-check-circle"></i>
+                                            </a>
+
+                                            <a href="javascript:void(0)" data-tooltip="Disapprove"
+                                               data-id="{{ instructor.id }}" class="btn mb-1 admin-disapprove-instructor-btn"><i
+                                                    class="fas fa-times-circle text-danger"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% include 'admins/script.html' %}
+
+{% endblock %}

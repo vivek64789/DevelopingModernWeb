@@ -1,0 +1,60 @@
+<script>
+    $(".instructor-delete-course-btn").click(function () {
+
+        var pdiv = this;
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+                var course_id = $(this).attr("data-id");
+                let csrf = $("input[name=csrfmiddlewaretoken]").val();
+
+                var send_data = {course_id: course_id, csrfmiddlewaretoken: csrf};
+
+                $.ajax({
+
+                    url: '{% url 'adminDeleteCourse' %}',
+                    method: "POST",
+                    data: send_data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status) {
+
+                            pdiv.parentNode.parentNode.parentNode.remove();
+
+
+                            var toastMixinn = Swal.mixin({
+                                toast: true,
+                                icon: 'error',
+                                title: 'Deleted Successfully',
+                                animation: false,
+                                position: 'top',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            });
+                            toastMixinn.fire({
+                                animation: true,
+                                title: 'Deleted Successfully'
+                            });
+                        }
+                    }
+
+                });
+            }
+
+        });
+    });
+</script>

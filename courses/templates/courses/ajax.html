@@ -1,0 +1,238 @@
+<script>
+
+    var api_url = "{{ api_url }}";
+    $.getJSON(api_url, function (api_data) {
+
+        {#    Adding content to course while updating it#}
+        $('#course_info').val(api_data.course_name);
+        CKEDITOR.instances["id_course_description"].setData(api_data.course_description);
+        CKEDITOR.instances["id_course_requirements"].setData(api_data.course_requirements);
+        CKEDITOR.instances["id_course_audience"].setData(api_data.course_audience);
+        CKEDITOR.instances["id_course_outcome"].setData(api_data.course_outcome);
+
+        $('#id_difficulty_level').val(api_data.difficulty_level);
+        $('#id_course_categories').val(api_data.course_categories);
+        $('#id_course_price').val(api_data.course_price);
+        $('.img-thumbnail').attr("src", api_data.thumbnail);
+        $('#id_video_source').val(api_data.video_source);
+        $('#id_video_url').val(api_data.video_url);
+        $('#id_course_caption').val(api_data.course_caption);
+        $('#id_course_duration').val(api_data.course_duration);
+        $('#id_course_language').val(api_data.course_language);
+        $('#id_course_attachments').attr("src", api_data.course_attachments);
+
+        var form_fields = document.getElementsByTagName('input');
+        var form_select = document.getElementsByTagName('select');
+
+        for (var field in form_fields) {
+            form_fields[field].className += 'form-control my-2'
+        }
+        for (var select in form_select) {
+            form_select[select].className += 'form-control my-2'
+        }
+
+
+        $(function () {
+            $("#id_thumbnail").change(function (event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#thumbnail-preview").attr("src", x)
+
+            });
+        });
+
+        {#saving course #}
+        $('#add-course-tab').steps({
+            onFinish: function () {
+
+            }
+        });
+
+        function upload(event) {
+            event.preventDefault();
+            var formData = new FormData($("#add-course-form").get(0));
+            {#let csrf = $("input[name=csrfmiddlewaretoken]").val();#}
+            {#console.log(csrf)#}
+            console.log(formData)
+            var course_id = api_data.id;
+            console.log(course_id);
+            var desc = CKEDITOR.instances["id_course_description"].getData();
+            var req = CKEDITOR.instances["id_course_requirements"].getData();
+            var aud = CKEDITOR.instances["id_course_audience"].getData();
+            var out = CKEDITOR.instances["id_course_outcome"].getData();
+            formData.append('course_description', desc)
+            formData.append('course_requirements', req)
+            formData.append('course_audience', aud)
+            formData.append('course_outcome', out)
+
+            c_id = api_data.id;
+            var patch_url = '{% url "addCourseContent" course_id=0 %}'.replace('0', c_id)
+            $.ajax({
+                url: patch_url,
+                type: 'POST',
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    var success = data.status;
+                    if (success) {
+                        Swal.fire(
+                            'Submitted!',
+                            'Your Course Have Been Saved Successfully and Waiting for Approval.',
+                            'success'
+                        )
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            'Your Course Have Been Saved Successfully and Waiting for Approval.',
+                            'error'
+                        )
+                    }
+                },
+                failure: function (error) {
+                    alert("Error")
+                }
+            })
+        }
+
+        $(function () {
+            $('#add-course-form').submit(upload);
+        });
+
+        {# selecting the deafault course#}
+        var selected_value_of_course_for_section = api_data.id;
+
+        $("#id_course").val(selected_value_of_course_for_section).attr("selected", "selected");
+        $("#id_course").attr("hidden", "hidden");
+
+        {# Button add topic#}
+
+        $(document).on('submit', "#id-topic-form", function (event) {
+            event.preventDefault();
+            var id_topic_form = $("#id-topic-form")
+
+            $.ajax({
+                url:{% url 'addTopic' %},
+                type: 'POST',
+                data: id_topic_form.serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    var success = data.status;
+                    if (success) {
+                        var api_url = "{{ api_url }}";
+                        $.getJSON(api_url, function (api_data) {
+                            var course = api_data.courses;
+                            var topicId;
+                            var topicTitle;
+                            var topicDescription;
+                            $("#course-content-ajax").html("");
+                            for (var i = 0; i < course.length; i++) {
+                                topicId = course[i].id;
+                                console.log(topicId);
+                                topicTitle = course[i].topic_title;
+                                topicDescription = course[i].topic_description;
+
+                                var v = "<div class='toggle-section col-md-12' id='section-body'><div class='card mt-1'><h5 class='card-header' data-toggle='collapse' data-target='#toggle-section-card-body" + topicId + "'>Section: " + topicTitle + "</h5><div class='collapse' id='toggle-section-card-body" + topicId + "'><div class='card-body'><p class='card-text'>Description: " + topicDescription + "</p><button type='button' class='btn-sm btn-primary mt-3 mb-1 btn-edit-topic-content' data-toggle='modal' data-target='#ModalTopicContent' data-sid='" + topicId + "'>Add Content</button></div></div></div></div>"
+                                console.log(v);
+                                $("#course-content-ajax").append(v);
+                            }
+                            Swal.fire(
+                                'Submitted!',
+                                'Topic Saved',
+                                'success'
+                            )
+
+                        });
+                    } else {
+                        alert("There is error");
+                    }
+                }
+                ,
+                failure: function (error) {
+                    alert("Error")
+                }
+            })
+        });
+
+
+        {# Button edit/add topic content #}
+        var data_id;
+        $(".card-body").on('click', '.btn-edit-topic-content', function () {
+            console.log("Edit button clicked");
+            data_id = $(this).attr("data-sid");
+            console.log(data_id);
+
+            $("form").on('click', '.btn-save-topic-content', function () {
+                console.log("Save button clicked");
+                let csrf = $("input[name=csrfmiddlewaretoken]").val();
+                var topic_content = CKEDITOR.instances["id_topic_content"].getData();
+                console.log(topic_content);
+
+                mytopicdata = {sid: data_id, csrfmiddlewaretoken: csrf, topic_content: topic_content};
+
+                $.ajax({
+                    url: "/editTopicContent/",
+                    method: "POST",
+                    data: mytopicdata,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data.topic_title);
+                        console.log(data.topic_id);
+                        $("#topicid").val(data.topic_id);
+                        $("#id-topic-title").val(data.topic_title);
+
+                    }
+                });
+            });
+        });
+
+        {#    Button Delete#}
+
+        $("tbody").on('click', '.btn-del', function () {
+            console.log("Delete button clicked")
+            // ask confirmation
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let id = $(this).attr("data-sid");
+                    console.log(id);
+                    let csrf = $("input[name=csrfmiddlewaretoken]").val();
+
+                    mytopicdata = {sid: id, csrfmiddlewaretoken: csrf};
+                    mythis = this;
+                    $.ajax({
+                        url: "{% url 'deleteTopic' %}",
+                        method: "POST",
+                        data: mytopicdata,
+                        success: function (data) {
+                            console.log(data);
+                            if (data.status === 1) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                )
+                                console.log("Data delete successfully")
+                                $(mythis).closest("tr").fadeOut();
+                            } else {
+                                console.log("Unable to delete data")
+                            }
+                        }
+                    });
+                }
+            })
+            // ask confirmation end
+        });
+
+    });
+
+
+</script>

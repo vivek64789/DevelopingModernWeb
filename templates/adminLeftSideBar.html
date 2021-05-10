@@ -1,0 +1,78 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/vertical-responsive-menu.min.css' %}">
+
+<nav class="navbar p-0 navbar-expand navbar-light bg-white topbar mb-4 sticky-top static-top shadow">
+    <!-- Sidebar Toggle (Topbar) -->
+    <form class="form-inline">
+        <a type="button" id="toggleMenu" class="toggle_menu">
+            <i class="fas fa-bars"></i>
+        </a>
+        <a id="collapse_menu" class="collapse_menu">
+            <i class="fas fa-bars collapse_menu--icon "></i>
+        </a>
+    </form>
+
+    <ul class="navbar-nav ml-auto">
+        <div class="topbar-divider d-none d-sm-block"></div>
+
+        <li class="nav-item dropdown no-arrow">
+            {% if user.is_authenticated %}
+                {% include 'header.html' %}
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+
+
+<nav class="vertical_nav shadow">
+    <div class="left_section menu_left shadow" id="js-menu">
+        <div class="left_section mt-5">
+            <ul>
+                <li class="menu--item">
+                    <a href="/admin/dashboard" class="menu--link {{ active_dashboard }}" title="Dashboard">
+                        <span class="menu--label">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="/admin/courses" class="menu--link {{ active_courses }}" title="Courses">
+                        <span class="menu--label">Courses</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="/admin/pending-courses" class="menu--link {{ active_pending_courses }}" title="Pending Courses">
+                        <span class="menu--label">Pending Courses</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="/admin/users" class="menu--link {{ active_user }}" title="Create Course">
+                        <span class="menu--label">All Users</span>
+                    </a>
+                </li>
+
+                <li class="menu--item">
+                    <a href="/admin/instructors" class="menu--link {{ active_instructor }}" title="Create Course">
+                        <span class="menu--label">Instructors</span>
+                    </a>
+                </li>
+
+                <li class="menu--item">
+                    <a href="{% url 'pendingInstructors' %}" class="menu--link {{ active_pending_instructor }}" title="Create Course">
+                        <span class="menu--label">Pending Instructors</span>
+                    </a>
+                </li>
+
+                <li class="menu--item">
+                    <a href="/admin/students" class="menu--link {{ active_students }}" title="Students">
+                        <span class="menu--label">Students</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<script>
+    $('.ui.dropdown').dropdown();
+</script>

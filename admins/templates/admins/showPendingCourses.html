@@ -1,0 +1,98 @@
+{% extends 'adminDashboardLayout.html' %}
+
+
+{% block content %}
+
+    <div id="content-wrapper" class="d-flex flex-column pt-0 wrapper">
+        <div id="content">
+            <div class="container-fluid">
+                <div class="container shadow">
+                    <h1 class="h3 mb-2 text-success font-weight-bold d-flex justify-content-center p-2">Pending
+                        Courses</h1>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary d-flex justify-content-center">All Pending
+                            Courses</h6>
+                    </div>
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="table-responsive">
+                            <table
+                                    class="table table-bordered"
+                                    id="dataTable"
+                                    width="100%"
+                                    cellspacing="0"
+                            >
+                                <thead>
+                                <tr>
+                                    <th>Course Id</th>
+                                    <th>Title</th>
+                                    <th>Categories</th>
+                                    <th>Price</th>
+                                    <th>Instructor</th>
+                                    <th>Status</th>
+                                    <th>Last Updated</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Course Id</th>
+                                    <th>Title</th>
+                                    <th>Categories</th>
+                                    <th>Price</th>
+                                    <th>Instructor</th>
+                                    <th>Status</th>
+                                    <th>Last Updated</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                {% for course in courses %}
+
+                                    <tr>
+                                        <td>{{ course.id }}</td>
+                                        <td>{{ course.course_name }}</td>
+                                        <td>{{ course.course_categories }}</td>
+                                        <td>{{ course.course_price }}</td>
+                                        <td>{{ course.course_instructor.username }}</td>
+                                        <td>{{ course.is_approved }}</td>
+                                        <td>{{ course.course_modified_date }}</td>
+                                        <td>
+                                            <a href="/course/read/{{ course.id }}" data-tooltip="Preview Course" target="_blank"
+                                               data-id="{{ course.id }}" class="btn mb-1">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+
+                                            <a href="javascript:void(0)" data-tooltip="Approve"
+                                               data-id="{{ course.id }}" class="btn mb-1 text-success admin-approve-course-btn">
+                                                <i class="far fa-check-circle"></i>
+                                            </a>
+
+                                            <a href="/create-course/{{ course.id }}" data-tooltip="Edit" target="_blank"
+                                               data-id="{{ course.id }}" class="btn mb-1"><i
+                                                    class="far fa-edit"></i></a>
+
+                                            <a href="javascript:void(0)" data-tooltip="Delete" data-id="{{ course.id }}"
+                                               class="btn mb-1 admin-delete-course-btn text-danger"><i
+                                                    class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% include 'admins/script.html' %}
+
+{% endblock %}

@@ -1,0 +1,404 @@
+{% extends 'instructorDashboardLayout.html' %}
+
+{#loading bootstrap#}
+{% load bootstrap %}
+{#load bootstrap end#}
+
+{# block to write title#}
+{% block title %}
+    <title>Add Courses</title>
+{% endblock %}
+{# block to write title end#}
+
+{# block for main content#}
+{% block content %}
+
+    {#   bootstrap container for course builder #}
+    <div class="container">
+
+        {#   bootstrap row for course builder division #}
+        <div class="row">
+            <div class="col-12 mt-5">
+
+                {# form for course builder #}
+                <form class="form" id="add-course-form" action="" method="POST"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="course_tabs_1 shadow px-3 pb-5 pt-5">
+                        <div id="add-course-tab" class="step-app add-course">
+
+                            {# Unordered list for course tab nav bar #}
+                            <ul class="step-steps">
+                                <li class="active">
+                                    <a href="#tab_step1">
+                                        <span class="number"></span>
+                                        <span class="step-name">General Information</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#tab_step2">
+                                        <span class="number"></span>
+                                        <span class="step-name">Preview</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#tab_step3">
+                                        <span class="number"></span>
+                                        <span class="step-name">Course Content</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#tab_step4">
+                                        <span class="number"></span>
+                                        <span class="step-name">Extra Information</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            {# Unordered list for course tab nav bar end #}
+
+                            {# Content Area#}
+                            <div class="step-content">
+                                {# General information area#}
+                                <div class="step-tab-panel step-tab-info active" id="tab_step1">
+                                    <div class="tab-from-content">
+                                        {# Title for general information#}
+                                        <div class="title-icon">
+                                            <h3 class="title">
+                                                <i class="fas fa-info-circle"></i>General Information
+                                            </h3>
+                                        </div>
+                                        {# Title for general information end #}
+                                        <div>
+
+                                            {# General information form division#}
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="card no-border py-2 px-2">
+                                                            <div class="course-title">
+                                                                {#                    {{ form.course_title.label }}#}
+                                                                <label for="course_info">Course
+                                                                    Name</label>
+
+                                                                {{ form.course_name }}
+                                                            </div>
+                                                            <div class="course-description pt-3">
+                                                                <label for="course_description">Course
+                                                                    Description</label>
+                                                                <div class="course-description-editor">
+                                                                    {{ form.course_description }}
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="course-difficulty-level pt-3">
+                                                                <label for="id_difficulty_level">Difficulty
+                                                                    Level</label>
+                                                                {{ form.difficulty_level }}
+                                                            </div>
+
+                                                            <div class="course-categories pt-3">
+                                                                <label for="course_categories">Course
+                                                                    Categories</label>
+                                                                {{ form.course_categories }}
+                                                            </div>
+
+                                                            <div class="course-price pt-3">
+                                                                <label for="course_price">Course Price</label>
+                                                                {{ form.course_price }}
+                                                            </div>
+                                                            <div class="rich-editor">
+                                                                {{ form.media }}
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {# General information form division end#}
+                                    </div>
+                                </div>
+                                {# General information area end#}
+
+                                {# Course preview area #}
+                                <div class="step-tab-panel step-tab-gallery" id="tab_step2">
+
+                                    {#course preview tab#}
+                                    <div class="tab-from-content">
+
+                                        {#course preview title#}
+                                        <div class="title-icon">
+                                            <h3 class="title">
+                                                <i class="fas fa-eye"></i>Preview
+                                            </h3>
+                                        </div>
+                                        {#course preview title end#}
+
+                                        {#course preview thumbail#}
+                                        <div class="thumbnail-section pt-3">
+                                            <label for="thumbnail">Thumbnail</label>
+                                            <div class="thumbnail-section d-flex justify-content-right">
+                                                <div class="thumbnail-image">
+                                                    <img src="/static/uploads/thumbail.png" id="thumbnail-preview"
+                                                         alt="Thumbnail Image"
+                                                         class="img-thumbnail">
+                                                </div>
+                                                <div class="thumbnail-info px-4">
+                                                    <p>Select course thumbnail
+                                                        image must be 700x430 pixels
+                                                        File Support: jpg, .jpeg, .gif, or .png no text on
+                                                        the image.</p>
+                                                    <label class="btn btn-primary thumbnail-button mt-5"
+                                                           for="id_thumbnail">Upload
+                                                        Image</label>
+                                                    {{ form.thumbnail }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {#course preview thumbnail end#}
+
+                                        {#course preview video#}
+                                        <div class="video_source pt-4">
+                                            <label for="id_video_source">Course Preview Video Source</label>
+                                            {{ form.video_source }}
+                                            {{ form.video_url }}
+                                        </div>
+
+                                        <div class="course-caption mt-2">
+                                            <label for="id_course_caption">Course
+                                                Content Caption</label>
+                                            {{ form.course_caption }}
+                                        </div>
+                                        {#course preview video end#}
+
+                                    </div>
+                                    {#course preview tab end#}
+                                </div>
+                                {# Course preview area end #}
+
+                                {#Course content area#}
+                                <div class="step-tab-panel step-tab-location" id="tab_step3">
+                                    <div class="tab-from-content">
+                                        {#Course division#}
+                                        <div class="title-icon">
+                                            <h3 class="title">
+                                                <i class="fas fa-book"></i>Course Content
+                                            </h3>
+                                        </div>
+                                        {#Course division end#}
+
+                                        {#Add topic content division#}
+                                        <div class="course-content pt-3" id="course-content-body">
+                                            <div id="course-content-ajax">
+                                                {% include 'courses/loadTopics.html' %}
+                                            </div>
+                                            <button type="button" class="btn-sm btn-primary mt-3 mb-1"
+                                                    data-toggle="modal"
+                                                    data-target="#ModalCenter">
+                                                Add Topic
+                                            </button>
+                                        </div>
+                                        {# Add topic content division end #}
+                                    </div>
+                                </div>
+                                {#Course content area#}
+
+                                {#Course extra information area#}
+                                <div class="step-tab-panel step-tab-amenities" id="tab_step4">
+                                    <div class="tab-from-content">
+                                        <div class="title-icon">
+                                            <h3 class="title">
+                                                <i class="fas fa-file"></i>Extra Information
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    {#  course extra information started#}
+                                    <div class="course-content pt-3" id="course-content-body">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="card no-border py-2 px-2">
+                                                        <div class="course-duration">
+
+                                                            <label for="id_course_duration" style="display: block">Course
+                                                                Duration</label>
+                                                            {{ form.course_duration }} <span
+                                                                style="color: var(--color-primary)"> Minutes</span>
+                                                        </div>
+                                                        <div class="course-description pt-3">
+                                                            <label for="id_course_requirements">Course
+                                                                Requirements</label>
+                                                            <div class="course-requirements-editor">
+                                                                {{ form.course_requirements }}
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="course-language mt-2">
+                                                            <label for="id_course_language">Course
+                                                                Content Language</label>
+                                                            {{ form.course_language }}
+                                                        </div>
+
+                                                        <div class="course-audience pt-3">
+                                                            <label for="id_course_audience">Who is this course
+                                                                for</label>
+                                                            <div class="course-audience-editor">
+                                                                {{ form.course_audience }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="course-outcome pt-3">
+                                                            <label for="id_course_outcome">What student will
+                                                                learn</label>
+                                                            <div class="course-outcome-editor">
+                                                                {{ form.course_outcome }}
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="course-attachments mt-2">
+                                                            <label for="id_course_attachments">Miscellaneous
+                                                                Information</label>
+                                                            {{ form.course_attachments }}
+                                                        </div>
+
+                                                        <div class="rich-editor">
+                                                            {{ form.media }}
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {# course extra infromation content end#}
+                                </div>
+                                {#Course extra information area end #}
+                            </div>
+                            {# Content area end#}
+
+                            {# Tab bottom navigator #}
+                            <div class="step-footer step-tab-pager">
+                                <button data-direction="prev" class="btn btn-default steps_btn" style="display: none;">
+                                    PREVIOUS
+                                </button>
+                                <button data-direction="next" class="btn btn-default steps_btn" style="">Next</button>
+                                <button data-direction="finish"
+                                        class="btn btn-default steps_btn save-course-btn"
+                                        style="display: none;"
+                                        onclick="document.getElementById('submit-course-btn').click()">
+                                    Submit
+                                    for
+                                    Review
+                                </button>
+                            </div>
+                            {# Tab bottom navigator end #}
+
+                            {# Button to submit content for review #}
+                            <button type="submit" style="display: none" id="submit-course-btn">Submit</button>
+                            {# Button to submit content for review end #}
+                        </div>
+                    </div>
+                </form>
+                {# form for course builder end #}
+
+            </div>
+        </div>
+        {#   bootstrap row for course content end #}
+
+    </div>
+    {#   bootstrap container for course builder end #}
+
+    {# Modal for add topic#}
+    <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog"
+         aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form class="form" id="id-topic-form" action="" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add
+                            Topic</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ topic_form.course }}
+
+                        <label for="id_topic_title">Topic Name</label><br>
+                        {{ topic_form.topic_title }}
+
+
+                        <label for="id_topic_description">Topic
+                            Description</label><br>
+                        {{ topic_form.topic_description }}
+                        <br>
+                        <label for="id_topic_duration">Topic
+                            Duration</label><br>
+                        {{ topic_form.topic_duration }}
+                        <span style="color: var(--color-primary)"> Minutes</span>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Close
+                        </button>
+                        <button type="submit" class="btn btn-primary"
+                                id="btnSaveTopic">
+                            Save
+                            changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {# Modal for add topic end#}
+
+    {# Modal for add topic Content#}
+    <div class="modal fade" id="ModalTopicContent" tabindex="-1" role="dialog"
+         aria-labelledby="ModalContentTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form class="form" id="id-topic-content-form" action=""
+                      method="POST">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add
+                            Content</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <label for="id_topic_content">Content</label><br>
+                        {{ topic_form.topic_content }}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Close
+                        </button>
+                        <button type="button"
+                                class="btn btn-primary btn-save-topic-content"
+                                id="btnSaveTopicContentTitle"
+                                data-sid="{{ topic.id }}">
+                            Save
+                            changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {# Modal for add topic Content#}
+
+    {# including ajax script used for creating course builder#}
+    {% include "courses/ajax.html" %}
+
+{% endblock %}
+{# block for main content end#}

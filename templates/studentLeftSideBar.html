@@ -1,0 +1,79 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/vertical-responsive-menu.min.css' %}">
+
+<style>
+
+</style>
+
+<header class="header clearfix">
+    <button type="button" id="toggleMenu" class="toggle_menu">
+        <i class="fas fa-bars"></i>
+    </button>
+    <button id="collapse_menu" class="collapse_menu">
+        <i class="fas fa-bars collapse_menu--icon "></i>
+    </button>
+
+    <div class="header_right pt-2">
+        <ul>
+            <li>
+                <a href="/" class="btn btn-secondary btn-home">Home</a>
+            </li>
+
+            <li>
+                <a href="/courses" class="btn btn-secondary pt-2 create_btn_dash">Browse Courses</a>
+            </li>
+
+            <li>
+                {% if user.is_authenticated %}
+                    {% include 'header.html' %}
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</header>
+<!-- Header End -->
+<!-- Left Sidebar Start -->
+<nav class="vertical_nav">
+    <div class="left_section menu_left" id="js-menu">
+        <div class="left_section">
+            <ul>
+                <li class="menu--item">
+                    <a href="{% url 'studentDashboard' %}" class="menu--link {{ active_dashboard }}" title="Dashboard">
+                        <span class="menu--label">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{% url 'studentLearnings' %}" class="menu--link {{ active_my_learning }} " title="My Learning">
+                        <span class="menu--label">My Learning</span>
+                    </a>
+                </li>
+
+                <li class="menu--item">
+                    <a data-tooltip="My Orders" href="{% url 'orders' %}" class="menu--link {{ active_my_orders }}">
+                        <span class="menu--label">My Orders</span>
+                    </a>
+                </li>
+
+
+                <li class="menu--item">
+                    <a href="{% url 'studentBecomeInstructor' %}" class="menu--link {{ active_become_instructor }}" title="Become Instructor">
+                        <span class="menu--label">Become Instructor</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="left_section pt-2">
+            <ul>
+                <li class="menu--item">
+                    <a href="{% url 'studentSettings' %}" class="menu--link {{ active_settings }}" title="Setting">
+                        <span class="menu--label">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script>
+    $('.ui.dropdown').dropdown();
+</script>

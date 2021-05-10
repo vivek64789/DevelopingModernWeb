@@ -1,0 +1,68 @@
+{% extends 'instructorDashboardLayout.html' %}
+
+{% block title %}
+
+    <title>Instructor | Dashboard</title>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid shadow">
+        <div class="container ml-25">
+
+        </div>
+    </div>
+
+    <div class="wrapper">
+        {#    {% include 'instructorLeftSideBar.html' %}#}
+        <div class="dash-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2 class="instructor_dashboard_title"><i class="fas fa-building"></i> Instructor Dashboard</h2>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="card_dash">
+                            <div class="card_dash_left">
+                                <h5>Total Courses</h5>
+                                <h2><a href="/instructor/courses">{{ total_courses }}</a></h2>
+                                <span class="card_background3">New 0</span>
+                            </div>
+                            <div class="card_dash_right">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="card_dash">
+                            <div class="card_dash_left">
+                                <h5>Total Pending courses</h5>
+                                <h2><a href="/instructor/pending-courses">{{ total_pending_courses }}</a></h2>
+                                <span class="card_background4">New 0</span>
+                            </div>
+                            <div class="card_dash_right">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card_dash1">
+                            <div class="card_dash_left1">
+                                <i class="uil uil-book-alt"></i>
+                                <h1>Jump Into Course Creation</h1>
+                            </div>
+                            <div class="card_dash_right1">
+                                <button class="create_btn_dash"
+                                        onclick="window.location.href = '/create-course';">Create Your Course
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

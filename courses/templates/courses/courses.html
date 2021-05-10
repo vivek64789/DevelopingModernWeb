@@ -1,0 +1,274 @@
+{% load bootstrap %}
+{% include 'layout.html' %}
+
+{% block title %}
+    <title>Courses</title>
+{% endblock %}
+
+{% block content %}
+
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        .form-group {
+            margin-bottom: 5px
+        }
+
+        label {
+            padding-left: 10px
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0
+        }
+
+        h6 {
+            margin-bottom: 0px
+        }
+
+        #sort {
+            outline: none;
+            border: none
+        }
+
+
+        @media (min-width: 1200px) {
+
+            #sidebar {
+                width: 30%;
+                padding: 20px;
+                float: left
+            }
+
+            #products {
+                width: 70%;
+                padding: 10px;
+                margin: 0;
+                float: right
+            }
+
+            .card {
+                width: 300px;
+                height: 330px;
+                border: none
+            }
+
+            .card-img-top {
+                width: 295px;
+                height: 200px;
+                border-radius: 10px
+            }
+
+            del {
+                padding-right: 2px
+            }
+        }
+
+        @media (min-width: 992px) and (max-width: 1199px) {
+            #sidebar {
+                width: 30%;
+                padding: 20px;
+                float: left
+            }
+
+            #products {
+                width: 70%;
+                padding: 10px;
+                margin: 0;
+                float: right
+            }
+
+            .card {
+                width: 200px;
+                height: 330px;
+                border: none
+            }
+
+            .card-img-top {
+                width: 200px;
+                height: 200px;
+                border-radius: 10px
+            }
+
+            .fa-plus,
+            .fa-minus {
+                font-size: 12px
+            }
+
+            .sign {
+                height: 25px
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991px) {
+
+            #sidebar {
+                width: 35%;
+                padding: 20px;
+                float: left
+            }
+
+            #products {
+                width: 65%;
+                padding: 10px;
+                margin: 0;
+                float: right
+            }
+
+            .card {
+                border: none
+            }
+        }
+
+        @media (min-width: 576px) and (max-width: 767px) {
+
+            #sidebar {
+                width: 40%;
+                padding: 20px;
+                float: left
+            }
+
+            #products {
+                width: 60%;
+                padding: 10px;
+                margin: 0;
+                float: right
+            }
+
+            .card {
+                border: none
+            }
+
+
+            #sorting span,
+            #res {
+                font-size: 14px
+            }
+
+        }
+
+        @media (max-width: 575px) {
+
+            #sidebar {
+                display: none
+            }
+
+
+            #sorting,
+            #res {
+                font-size: 12px;
+                margin-top: 2%
+            }
+        }
+
+        label {
+            display: none;
+        }
+    </style>
+
+    <div class="container-fluid m-0 pt-7">
+
+        <div class="container-fluid">
+            <p class="badge badge-success d-flex justify-content-center p-3 m-3">Course categories</p>
+        </div>
+        <!-- Sidebar filter section -->
+        <section id="sidebar">
+
+            <div class="py-2 border-bottom ml-3">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ course_filter.form | bootstrap_horizontal }}
+                    <div class="mb-2 d-flex justify-content-center">
+                        <button style="height: 30px" class="btn create_btn_dash m-auto" type="submit">Search</button>
+                    </div>
+                </form>
+                <h6 class="font-weight-bold">Filter Categories</h6>
+                <div id="orange"><span class="fa fa-minus"></span></div>
+                <div class="list-group">
+                    <a href="{% url 'courses' 'all' %}" class="list-group-item list-group-item-action {{ active_all }}"
+                       aria-current="true">
+                        All Courses
+                    </a>
+                    <a href="{% url 'courses' 'mbbs' %}"
+                       class="list-group-item list-group-item-action {{ active_mbbs }}">MBBS</a>
+                    <a href="{% url 'courses' 'bds' %}" class="list-group-item list-group-item-action {{ active_bds }}">BDS</a>
+                    <a href="{% url 'courses' 'loksewa' %}"
+                       class="list-group-item list-group-item-action {{ active_loksewa }}">LOKSEWA</a>
+                    <a href="{% url 'courses' 'django' %}"
+                       class="list-group-item list-group-item-action {{ active_django }}" tabindex="-1"
+                       aria-disabled="true">Django</a>
+                </div>
+            </div>
+        </section>
+        <!-- products section -->
+        <section id="products">
+            <div class="container">
+                <div class="d-flex flex-row">
+                    <div class="ml-auto mr-lg-4">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Sort by</span>
+                            </div>
+                            <label for="sort"></label>
+                            <select name="sort" class="form-group form-control" id="sort">
+                                <option value="low-to-high"><b>Low to high</b></option>
+                                <option value="high-to-low"><b>High to Low</b></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {#                    <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">#}
+
+                    {% for course in courses %}
+
+
+                        <div class="entprep-card mb-5 ml-lg-3 ml-auto mr-auto">
+                            <a href="/course/{{ course.id }}" class="course_img">
+                                <img src="/{{ course.thumbnail }}" alt="">
+                                <div class="course-overlay">
+                                    <span class="course_play_btn"><i class="fas fa-play-circle"></i></span>
+                                    {% if course.course_duration != None %}
+                                        <div class="course_timer">
+                                            {{ course.course_duration }} Minutes
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                            <div class="course_content">
+                                {% csrf_token %}
+                                <div class="course_dots more_dropdown">
+                                    <a href="javascript:void(0)"><i class="fas fa-ellipsis-v"></i></a>
+                                    <div class="dropdown-content">
+                                        {#                                <span data-course="{{ course.id }}" class="update_cart"><i class="fas fa-cart-plus"></i>Add to Cart</span>#}
+                                        <span><i class="far fa-save"></i>Save for later</span>
+                                    </div>
+                                </div>
+
+                                <a href="/course/{{ course.id }}"
+                                   class="course_name">{{ course.course_name }}</a>
+                                <a class="float-left" href="javascript:void(0)"
+                                   class="course_category">{{ course.course_categories }}</a>
+                                <a class="float-end" href="javascript:void(0)"> <span data-course="{{ course.id }}"
+                                                                                      class="update_cart"><i
+                                        class="fas fa-cart-plus"></i>Add to Cart</span>
+                                </a>
+                                <div class="author_and_price">
+                                    <p class="author_name">By <a target="_blank"
+                                                                 href="/instructor/view/{{ course.course_instructor.id }}">{{ course.course_instructor.username }}</a>
+                                    </p>
+                                    <div class="course_price">NPR {{ course.course_price }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {#            </div>#}
+        </section>
+    </div>
+    {% include 'courses/cartAjax.html' %}
+
+{% endblock %}

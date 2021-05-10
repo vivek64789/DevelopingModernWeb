@@ -1,0 +1,93 @@
+{% extends 'adminDashboardLayout.html' %}
+
+{% block title %}
+
+    <title>Admin | Dashboard</title>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid shadow">
+        <div class="container ml-25">
+
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="dash-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12  pt-2">
+                        <h2 class="instructor_dashboard_title"><i class="fas fa-building"></i> Admin Dashboard</h2>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="card_dash shadow">
+                            <div class="card_dash_left">
+                                <h5>Total Courses</h5>
+                                <h2 class="pb-5 pt-3"><a href="{% url 'adminCourses' %}">{{ total_courses }}</a></h2>
+
+                            </div>
+                            <div class="card_dash_right">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6 p-0">
+                        <div class="card_dash shadow">
+                            <div class="card_dash_left">
+                                <h5>Total Users</h5>
+                                <h2><a href="{% url 'showUser' %}">{{ total_users }}</a></h2>
+                                <h1 class="m-auto float-end"><a href="{% url 'addUser' %}" class="font-si"><i
+                                        class="fas fa-plus-circle"></i></a></h1>
+                            </div>
+                            <div class="card_dash_right">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="card_dash shadow">
+                            <div class="card_dash_left">
+                                <h5>Total Instructors</h5>
+                                <h2><a href="{% url 'showInstructor' %}">{{ total_instructors }}</a></h2>
+                                <h1 class="m-auto float-end"><a href="{% url 'addInstructor' %}" class="font-si"><i
+                                        class="fas fa-plus-circle"></i></a></h1>
+                            </div>
+                            <div class="card_dash_right">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="card_dash shadow">
+                            <div class="card_dash_left">
+                                <h5>Total Students</h5>
+                                <h2><a href="{% url 'adminShowStudents' %}">{{ total_students }}</a></h2>
+                                <h1 class="m-auto float-end"><a href="{% url 'addUser' %}" class="font-si"><i
+                                        class="fas fa-plus-circle"></i></a></h1>
+                            </div>
+                            <div class="card_dash_right">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card_dash1">
+                            <div class="card_dash_left1">
+                                <i class="uil uil-book-alt"></i>
+                                <h1>Jump Into Course Approval Section</h1>
+                            </div>
+                            <div class="card_dash_right1">
+                                <button class="create_btn_dash"
+                                        onclick="window.location.href = '/admin/pending-courses';">View Pending Course
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

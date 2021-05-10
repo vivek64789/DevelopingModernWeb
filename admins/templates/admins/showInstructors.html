@@ -1,0 +1,82 @@
+{% extends 'adminDashboardLayout.html' %}
+
+
+{% block content %}
+
+    <div id="content-wrapper" class="d-flex flex-column pt-0 wrapper">
+        <div id="content">
+            <div class="container-fluid">
+                <div class="container shadow">
+                    <h1 class="h3 mb-2 text-success font-weight-bold d-flex justify-content-center p-2">Instructors</h1>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-white py-3">
+                        <a href="{% url 'addInstructor' %}" class="m-0 font-weight-bold text-primary d-flex justify-content-end">Add Instructors</a>
+                    </div>
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="table-responsive">
+                            <table
+                                    class="table table-bordered"
+                                    id="dataTable"
+                                    width="100%"
+                                    cellspacing="0"
+                            >
+                                <thead>
+                                <tr>
+                                    <th>User Id</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Joined Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>User Id</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Joined Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                {% for instructor in instructors %}
+
+                                    <tr>
+                                        <td>{{ instructor.user.id }}</td>
+                                        <td>{{ instructor.first_name }}</td>
+                                        <td>{{ instructor.last_name }}</td>
+                                        <td>{{ instructor.user.username }}</td>
+                                        <td>{{ instructor.user.email }}</td>
+                                        <td>{{ instructor.user.date_joined }}</td>
+                                        <td>
+                                            <a href="javascript:void(0)" data-id="{{ instructor.user.id }}"
+                                               class="btn mb-1 btn-secondary admin-delete-instructor-btn"><i
+                                                    class="fas fa-trash"></i></a>
+                                            <a href="/admin/update-instructor/{{ instructor.user.id }}" target="_blank"
+                                               data-id="{{ instructor.id }}" class="btn mb-1 btn-secondary"><i
+                                                    class="far fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% include 'admins/script.html' %}
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% for topic in api_data.courses %}
+
+    <div class="toggle-section col-md-12" id="section-body">
+        <div class="card mt-1">
+            <h5 class="card-header" data-toggle="collapse"
+                data-target="#toggle-section-card-body{{ topic.id }}">
+                Section: {{ topic.topic_title }}</h5>
+            <div class="collapse"
+                 id="toggle-section-card-body{{ topic.id }}">
+                <div class="card-body">
+                    <p class="card-text">
+                        Description: {{ topic.topic_description }}</p>
+
+
+                    <button type="button"
+                            id="btn-edit-topic-content"
+                            class="btn-sm btn-primary mt-3 mb-1 btn-edit-topic-content"
+                            data-toggle="modal"
+                            data-target="#ModalTopicContent"
+                            data-sid="{{ topic.id }}">
+                        Add Content
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

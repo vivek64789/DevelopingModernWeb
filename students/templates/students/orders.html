@@ -1,0 +1,73 @@
+{% extends 'studentDashboardLayout.html' %}
+
+{% block title %}
+
+    <title>Student | Orders</title>
+
+{% endblock %}
+
+{% block content %}
+    <div id="content-wrapper" class="d-flex flex-column pt-0 wrapper">
+        <div id="content">
+            <div class="container-fluid">
+                <div class="container shadow">
+                    <h1 class="h3 mb-2 text-success font-weight-bold d-flex justify-content-center p-2">All Orders</h1>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-white py-3">
+                        <a href="{% url 'courses' %}"
+                           class="m-0 font-weight-bold text-primary d-flex justify-content-end">Purchase more</a>
+                    </div>
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable">
+                                <thead>
+                                <tr>
+                                    <th>Order Id</th>
+                                    <th>Course Name</th>
+                                    <th>Order Date</th>
+                                    <th>Price</th>
+                                    <th>View</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Order Id</th>
+                                    <th>Course Name</th>
+                                    <th>Order Date</th>
+                                    <th>Price</th>
+                                    <th>View</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                {% for order in orders %}
+
+                                    <tr>
+                                        <td>{{ order.id }}</td>
+                                        <td class="pt-4">
+                                            {{ order.course.course_name }}
+                                        </td>
+                                        <td>{{ order.order_date }}</td>
+                                        <td>{{ order.course.course_price }}</td>
+                                        <td>
+                                            <a href="/course/{{ order.course.id }}" target="_blank"
+                                               data-id="{{ order.course.id }}"
+                                               class="btn mb-1 btn-secondary student-view-order-btn"><i
+                                                    class="fas fa-external-link-square-alt"></i></a>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
